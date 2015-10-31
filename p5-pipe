@@ -1,0 +1,27 @@
+#!/bin/s
+
+# parse arguments
+
+sketches=()
+
+while ["$1" != "" -a "$1" != "--args"]
+do
+	sketches+=("$1")
+	shift
+done
+
+shift
+
+args="$@"
+
+
+# execute sketches in order
+
+for sketch in ${sketches[@]}; do
+	
+	absPath=`cd "$sketch"; pwd`
+	echo start: ${absPath} >&2
+	args=`processing-java --sketch=$absPath --run ${args[@]}
+	echo \> $args >&2
+
+done
